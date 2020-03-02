@@ -1,20 +1,45 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export class MovieDetailContent extends Component {
-  render() {
-    const { Title, Plot, Poster, Year, Actors, Director } = this.props.movie
-    console.log('Content render');
-    return (
-      <div id="article">
-          <h2>{Title}</h2>
-          <img src={Poster} width="300px"/>
-          <p>{Plot}</p>
-          <p>{Director}</p>
-          <p>{Year}</p>
-          <p>{Actors}</p>
-      </div>
-    );
+
+export function MovieDetailContent({match}) {
+  // const [movie, setMovie] = React.useState()
+  // const [loading, setLoading] = React.useState(true)
+  const [data, setData] = React.useState({
+    loading: true,
+    movie: undefined
+  })
+
+  React.useEffect(()=>{
+
+    setData({loading:true})
+    fetch(
+      "http://omdbapi.com/?apikey=a2148006&t=" + encodeURI(match.params.movieTitle)
+    ).then(res => res.json())
+    .then((data)=>{
+      setData({loading:false, movie: data})
+      debugger;
+    })
+  }, [match.params.movieTitle, setData])
+
+  const {loading, movie} = data
+  if(loading) {
+    return <div id='article'><h4>Loading...</h4></div>
   }
+  if(!movie) {
+    return <div id='article'><h4>Not Found</h4></div>
+  }
+  
+    return (
+       <div id="article">
+           <h2>{movie.Title}</h2>
+           <img src={movie.Poster} width="300px"/>
+           <p>{movie.Year}</p>
+           <p>{movie.Director}</p>
+           <p>{movie.Actors}</p>
+           <p>{movie.Plot}</p>
+       </div>
+    );
+  
 }
 
 

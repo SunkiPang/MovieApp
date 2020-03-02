@@ -1,7 +1,7 @@
 import React from "react";
+import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
 function Lists(props) {
-
   const handleItemClick = async title => {
     const data = await fetch(
       "http://omdbapi.com/?apikey=a2148006&t=" + encodeURI(title)
@@ -14,7 +14,7 @@ function Lists(props) {
       <ul>
         {props.data.map(({Title}, i) => (
           <li key={i} onClick={() => handleItemClick(Title)}>
-            {Title}
+            <Link to={`/show/${Title}`}>{Title}</Link>
           </li>
         ))}
       </ul>
