@@ -3,6 +3,7 @@ import App from "./App";
 import "./App.css";
 import { withKnobs, text, boolean, number } from "@storybook/addon-knobs";
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { action } from '@storybook/addon-actions';
 import Lists from "./components/Lists";
 import {
   WelcomeContent,
